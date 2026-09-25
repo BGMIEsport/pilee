@@ -1,1 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>PILEE — Jalgaon</title>
+
+<meta name="description"
+content="PILEE — Local beverage discovery and order management for Jalgaon 425001.">
+
+<style>
+:root{
+    --bg:#0b0907;
+    --card:#15110d;
+    --card2:#1c1510;
+    --gold:#d6a84f;
+    --gold2:#f2cf78;
+    --cream:#f8f0df;
+    --muted:#b7aa96;
+    --border:#35291d;
+    --green:#4caf72;
+    --red:#d65c55;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:
+        radial-gradient(circle at top,#24170c 0,#0b0907 42%);
+    color:var(--cream);
+    min-height:100vh;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    backdrop-filter:blur(16px);
+    background:rgba(11,9,7,.94);
+    border-bottom:1px solid var(--border);
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+    min-height:70px;
+    padding:12px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-mark{
+    width:43px;
+    height:43px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:var(--gold2);
+    font-size:21px;
+    font-weight:bold;
+}
+
+.logo-text{
+    font-size:25px;
+    letter-spacing:4px;
+    color:var(--gold2);
+    font-weight:bold;
+}
+
+.location{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:2px;
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    background:var(--card);
+    color:var(--cream);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:10px 13px;
+}
+
+.cart-count{
+    display:inline-grid;
+    place-items:center;
+    min-width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#181008;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.hero{
+    max-width:1200px;
+    margin:auto;
+    padding:55px 18px 30px;
+}
+
+.hero-box{
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:35px 24px;
+    background:
+        linear-gradient(135deg,
+        rgba(102,67,27,.30),
+        rgba(20,14,9,.92));
+    box-shadow:0 20px 70px rgba(0,0,0,.35);
+}
+
+.eyebrow{
+    color:var(--gold2);
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:12px;
+    margin-bottom:12px;
+}
+
+h1{
+    font-size:clamp(42px,9vw,76px);
+    line-height:.95;
+    margin-bottom:18px;
+}
+
+.hero p{
+    max-width:650px;
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    line-height:1.6;
+}
+
+.notice{
+    margin-top:22px;
+    padding:14px;
+    border:1px solid #5a4426;
+    border-radius:12px;
+    background:rgba(214,168,79,.08);
+    color:#d9c39b;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 18px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.section-title h2{
+    font-size:28px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    font-size:13px;
+}
+
+.search{
+    width:100%;
+    padding:15px 16px;
+    background:var(--card);
+    color:var(--cream);
+    border:1px solid var(--border);
+    border-radius:13px;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.search:focus{
+    border-color:var(--gold);
+}
+
+.categories{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding-bottom:7px;
+}
+
+.category{
+    white-space:nowrap;
+    padding:10px 15px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--muted);
+    border-radius:30px;
+}
+
+.category.active,
+.category:hover{
+    background:var(--gold);
+    color:#160e07;
+    border-color:var(--gold);
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.product{
+    background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--border);
+    border-radius:17px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.product:hover{
+    transform:translateY(-3px);
+    border-color:#76582e;
+}
+
+.product-img{
+    height:190px;
+    background:
+        radial-gradient(circle,#382613,#120d08 65%);
+    display:grid;
+    place-items:center;
+    color:#76634b;
+    text-align:center;
+    padding:15px;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+}
+
+.product-img img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+}
+
+.product-info{
+    padding:15px;
+}
+
+.product-brand{
+    color:var(--gold2);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.product-name{
+    font-size:18px;
+    margin:5px 0;
+}
+
+.product-size{
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    font-size:12px;
+}
+
+.product-bottom{
+    margin-top:13px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:7px;
+}
+
+.price{
+    color:var(--gold2);
+    font-weight:bold;
+}
+
+.add{
+    border:0;
+    border-radius:10px;
+    padding:9px 12px;
+    background:var(--gold);
+    color:#160e07;
+    font-weight:bold;
+}
+
+.add:hover{
+    background:var(--gold2);
+}
+
+.empty{
+    display:none;
+    padding:35px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.shops{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.shop{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:17px;
+}
+
+.shop h3{
+    margin-bottom:7px;
+}
+
+.shop p{
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.map-btn{
+    display:inline-block;
+    margin-top:12px;
+    color:#171006;
+    background:var(--gold);
+    padding:9px 12px;
+    border-radius:9px;
+    text-decoration:none;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.tracking{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+}
+
+.track-input{
+    display:flex;
+    gap:9px;
+    margin-top:15px;
+}
+
+.track-input input{
+    flex:1;
+    min-width:0;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0d0a08;
+    color:white;
+}
+
+.track-input button{
+    padding:13px 16px;
+    border:0;
+    border-radius:10px;
+    background:var(--gold);
+}
+
+.status{
+    display:none;
+    margin-top:18px;
+}
+
+.status-line{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin:13px 0;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+}
+
+.dot{
+    width:13px;
+    height:13px;
+    border-radius:50%;
+    background:#4b443b;
+}
+
+.dot.done{
+    background:var(--green);
+    box-shadow:0 0 12px rgba(76,175,114,.5);
+}
+
+.support{
+    text-align:center;
+    padding:45px 18px;
+}
+
+.support p{
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    margin:8px 0 18px;
+}
+
+.support a{
+    color:var(--gold2);
+    text-decoration:none;
+}
+
+footer{
+    border-top:1px solid var(--border);
+    text-align:center;
+    padding:25px 18px 40px;
+    color:#776c5d;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    line-height:1.7;
+}
+
+/* CART */
+
+.cart-panel{
+    position:fixed;
+    right:-430px;
+    top:0;
+    width:min(410px,100%);
+    height:100vh;
+    background:#110d09;
+    border-left:1px solid var(--border);
+    z-index:3000;
+    transition:.3s;
+    padding:20px;
+    overflow:auto;
+}
+
+.cart-panel.open{
+    right:0;
+}
+
+.cart-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--border);
+}
+
+.cart-items{
+    padding:15px 0;
+}
+
+.cart-item{
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.cart-item strong{
+    display:block;
+}
+
+.cart-item small{
+    color:var(--muted);
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:8px;
+}
+
+.qty button{
+    width:27px;
+    height:27px;
+    border-radius:7px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:white;
+}
+
+.cart-total{
+    border-top:1px solid var(--border);
+    padding-top:15px;
+    font-size:20px;
+}
+
+.checkout{
+    width:100%;
+    border:0;
+    border-radius:11px;
+    background:var(--gold);
+    color:#160e07;
+    padding:14px;
+    margin-top:14px;
+    font-weight:bold;
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:2500;
+}
+
+.overlay.show{
+    display:block;
+}
+
+/* AGE GATE */
+
+.age-gate{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:rgba(5,4,3,.97);
+    display:grid;
+    place-items:center;
+    padding:20px;
+}
+
+.age-card{
+    max-width:480px;
+    width:100%;
+    text-align:center;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:35px 25px;
+}
+
+.age-logo{
+    font-size:40px;
+    color:var(--gold2);
+    letter-spacing:6px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.age-card p{
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    line-height:1.6;
+}
+
+.age-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+}
+
+.age-buttons button{
+    flex:1;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid var(--border);
+}
+
+.enter{
+    background:var(--gold);
+    border-color:var(--gold)!important;
+}
+
+.leave{
+    background:#211914;
+    color:var(--cream);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    .products{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .shops{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+    .nav{
+        min-height:62px;
+    }
+
+    .logo-text{
+        font-size:21px;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .product-img{
+        height:155px;
+    }
+
+    .shops{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding-top:25px;
+    }
+
+    .hero-box{
+        padding:27px 18px;
+    }
+
+    h1{
+        font-size:50px;
+    }
+
+    .track-input{
+        flex-direction:column;
+    }
+}
+
+@media(max-width:390px){
+    .product-img{
+        height:135px;
+    }
+
+    .product-info{
+        padding:11px;
+    }
+
+    .product-name{
+        font-size:15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- AGE / ELIGIBILITY GATE -->
+<div class="age-gate" id="ageGate">
+    <div class="age-card">
+        <div class="age-logo">PILEE</div>
+
+        <h2>Age & Eligibility Check</h2>
+
+        <p style="margin-top:12px">
+            This website is intended only for legally eligible adults.
+            By entering, you confirm that you meet the applicable legal
+            age and eligibility requirements in your location.
+        </p>
+
+        <div class="age-buttons">
+            <button class="leave" onclick="leaveSite()">Exit</button>
+            <button class="enter" onclick="enterSite()">I am eligible</button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="nav">
+
+        <div class="logo">
+            <div class="logo-mark">P</div>
+
+            <div>
+                <div class="logo-text">PILEE</div>
+                <div class="location">Jalgaon • 425001</div>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <button class="icon-btn" onclick="scrollToSection('tracking')">
+                Track
+            </button>
+
+            <button class="icon-btn" onclick="openCart()">
+                Cart
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="hero-box">
+
+        <div class="eyebrow">
+            PILEE • JALGAON
+        </div>
+
+        <h1>
+            Your local<br>
+            drinks destination.
+        </h1>
+
+        <p>
+            Explore the PILEE catalogue and participating local shops
+            serving the Jalgaon 425001 area.
+        </p>
+
+        <div class="notice">
+            ⚠ Availability, pricing, ordering and delivery are subject
+            to applicable laws, retailer licensing, age verification
+            and local service conditions.
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+
+    <div class="section-title">
+        <h2>Explore</h2>
+        <span id="productCount"></span>
+    </div>
+
+    <input
+        class="search"
+        id="search"
+        type="search"
+        placeholder="Search products or brands..."
+        oninput="renderProducts()"
+    >
+
+    <div class="categories">
+
+        <button class="category active"
+                onclick="setCategory('All',this)">
+            All
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Whisky',this)">
+            Whisky
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Rum',this)">
+            Rum
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Vodka',this)">
+            Vodka
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Brandy',this)">
+            Brandy
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Beer',this)">
+            Beer
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Wine',this)">
+            Wine
+        </button>
+
+        <button class="category"
+                onclick="setCategory('Cigarettes',this)">
+            Cigarettes
+        </button>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="products" id="products"></div>
+
+    <div class="empty" id="empty">
+        No matching catalogue items found.
+    </div>
+
+</section>
+
+
+<section class="section" id="shops">
+
+    <div class="section-title">
+        <h2>Local shops</h2>
+        <span>Jalgaon</span>
+    </div>
+
+    <div class="shops">
+
+        <div class="shop">
+            <h3>The Best Wine Shop</h3>
+            <p>Station Road / Navi Peth area</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=The+Best+Wine+Shop+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+        <div class="shop">
+            <h3>N.N. Wine</h3>
+            <p>Pimprala Shivar, Jalgaon</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=N.N.+Wine+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+        <div class="shop">
+            <h3>Prince Wine Shop</h3>
+            <p>New Bus Stand / Bhaje Gali area</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=Prince+Wine+Shop+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+        <div class="shop">
+            <h3>Pritam Wine</h3>
+            <p>Ramanand Nagar area</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=Pritam+Wine+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+        <div class="shop">
+            <h3>Nilam Wine</h3>
+            <p>Polan Peth / Shahunagar area</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=Nilam+Wine+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+        <div class="shop">
+            <h3>Vijay Wine Mart</h3>
+            <p>Icchadevi Chowk area</p>
+            <a class="map-btn"
+               href="https://www.google.com/maps/search/?api=1&query=Vijay+Wine+Mart+Jalgaon"
+               target="_blank">
+                Open Map
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="tracking">
+
+    <div class="section-title">
+        <h2>Track order</h2>
+        <span>PILEE tracking</span>
+    </div>
+
+    <div class="tracking">
+
+        <p style="color:var(--muted);font-family:Arial,sans-serif">
+            Enter your PILEE order ID to view its current status.
+        </p>
+
+        <div class="track-input">
+
+            <input
+                id="orderId"
+                placeholder="Example: PLE-1024"
+            >
+
+            <button onclick="trackOrder()">
+                Track
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+
+            <strong id="statusTitle">
+                Order status
+            </strong>
+
+            <div class="status-line">
+                <span class="dot done"></span>
+                Order received
+            </div>
+
+            <div class="status-line">
+                <span class="dot done"></span>
+                Payment / eligibility verification
+            </div>
+
+            <div class="status-line">
+                <span class="dot"></span>
+                Shop processing
+            </div>
+
+            <div class="status-line">
+                <span class="dot"></span>
+                Out for delivery
+            </div>
+
+            <div class="status-line">
+                <span class="dot"></span>
+                Delivered
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="support">
+
+    <h2>Need help?</h2>
+
+    <p>
+        Contact PILEE support
+    </p>
+
+    <a href="mailto:pileeshockse19@gmail.com">
+        pileeshockse19@gmail.com
+    </a>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    © 2026 PILEE • Jalgaon 425001<br>
+
+    This website is a frontend catalogue/demo until connected
+    to an authorized retailer, backend and compliant payment/order system.
+
+</footer>
+
+
+<!-- CART -->
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="cart-panel" id="cartPanel">
+
+    <div class="cart-head">
+        <h2>Your Cart</h2>
+
+        <button class="icon-btn" onclick="closeCart()">
+            ✕
+        </button>
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-total">
+        Total:
+        <strong id="cartTotal">₹0</strong>
+    </div>
+
+    <button class="checkout" onclick="checkoutInfo()">
+        Continue
+    </button>
+
+</aside>
+
+
+<script>
+
+/*
+========================================================
+PILEE PRODUCT DATA
+========================================================
+
+IMPORTANT:
+These are catalogue placeholders/examples.
+
+Replace them with products you are legally permitted
+and authorized to list.
+
+For images, create an "images" folder in GitHub and
+use paths such as:
+
+images/mc-dowells-no1.jpg
+images/royal-challenge.jpg
+images/old-monk.jpg
+
+The image filename can therefore match the product.
+*/
+
+const products = [
+
+    {
+        id:1,
+        brand:"McDowell's",
+        name:"No.1",
+        category:"Whisky",
+        size:"750 ml",
+        price:0,
+        image:"images/mc-dowells-no1.jpg"
+    },
+
+    {
+        id:2,
+        brand:"Royal Challenge",
+        name:"Whisky",
+        category:"Whisky",
+        size:"750 ml",
+        price:0,
+        image:"images/royal-challenge.jpg"
+    },
+
+    {
+        id:3,
+        brand:"Royal Stag",
+        name:"Deluxe",
+        category:"Whisky",
+        size:"750 ml",
+        price:0,
+        image:"images/royal-stag.jpg"
+    },
+
+    {
+        id:4,
+        brand:"Old Monk",
+        name:"Rum",
+        category:"Rum",
+        size:"750 ml",
+        price:0,
+        image:"images/old-monk.jpg"
+    },
+
+    {
+        id:5,
+        brand:"Vodka",
+        name:"Catalogue item",
+        category:"Vodka",
+        size:"750 ml",
+        price:0,
+        image:"images/vodka.jpg"
+    },
+
+    {
+        id:6,
+        brand:"Brandy",
+        name:"Catalogue item",
+        category:"Brandy",
+        size:"750 ml",
+        price:0,
+        image:"images/brandy.jpg"
+    },
+
+    {
+        id:7,
+        brand:"Beer",
+        name:"Catalogue item",
+        category:"Beer",
+        size:"650 ml",
+        price:0,
+        image:"images/beer.jpg"
+    },
+
+    {
+        id:8,
+        brand:"Wine",
+        name:"Catalogue item",
+        category:"Wine",
+        size:"750 ml",
+        price:0,
+        image:"images/wine.jpg"
+    },
+
+    {
+        id:9,
+        brand:"Gold Flake",
+        name:"Cigarette",
+        category:"Cigarettes",
+        size:"Pack",
+        price:0,
+        image:"images/gold-flake.jpg"
+    },
+
+    {
+        id:10,
+        brand:"Marlboro",
+        name:"Cigarette",
+        category:"Cigarettes",
+        size:"Pack",
+        price:0,
+        image:"images/marlboro.jpg"
+    },
+
+    {
+        id:11,
+        brand:"Marlboro",
+        name:"Crush",
+        category:"Cigarettes",
+        size:"Pack",
+        price:0,
+        image:"images/marlboro-crush.jpg"
+    }
+
+];
+
+let currentCategory = "All";
+let cart = [];
+
+
+/* AGE */
+
+function enterSite(){
+
+    localStorage.setItem(
+        "pilee_age_confirmed",
+        "yes"
+    );
+
+    document.getElementById("ageGate").style.display="none";
+}
+
+function leaveSite(){
+
+    window.location.href="https://www.google.com/";
+
+}
+
+if(
+    localStorage.getItem("pilee_age_confirmed")
+    === "yes"
+){
+
+    document.getElementById("ageGate").style.display="none";
+
+}
+
+
+/* CATEGORY */
+
+function setCategory(category,button){
+
+    currentCategory = category;
+
+    document
+        .querySelectorAll(".category")
+        .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    renderProducts();
+}
+
+
+/* PRODUCTS */
+
+function renderProducts(){
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const container =
+        document.getElementById("products");
+
+    container.innerHTML="";
+
+    let filtered = products.filter(product=>{
+
+        const categoryMatch =
+            currentCategory==="All" ||
+            product.category===currentCategory;
+
+        const searchMatch =
+            !search ||
+            product.name.toLowerCase().includes(search) ||
+            product.brand.toLowerCase().includes(search) ||
+            product.category.toLowerCase().includes(search);
+
+        return categoryMatch && searchMatch;
+
+    });
+
+    document.getElementById("productCount").textContent =
+        filtered.length + " catalogue items";
+
+    document.getElementById("empty").style.display =
+        filtered.length ? "none" : "block";
+
+    filtered.forEach(product=>{
+
+        const card =
+            document.createElement("div");
+
+        card.className="product";
+
+        card.innerHTML=`
+
+            <div class="product-img">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.brand} ${product.name}"
+                    onerror="this.style.display='none';
+                    this.parentElement.innerHTML='<span>IMAGE<br>COMING SOON</span>';"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-brand">
+                    ${product.brand}
+                </div>
+
+                <div class="product-name">
+                    ${product.name}
+                </div>
+
+                <div class="product-size">
+                    ${product.size}
+                </div>
+
+                <div class="product-bottom">
+
+                    <span class="price">
+                        ${product.price > 0 ? "₹"+product.price : "Price TBA"}
+                    </span>
+
+                    <button
+                        class="add"
+                        onclick="addToCart(${product.id})"
+                    >
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* CART */
+
+function addToCart(id){
+
+    const product =
+        products.find(x=>x.id===id);
+
+    if(!product) return;
+
+    const existing =
+        cart.find(x=>x.id===id);
+
+    if(existing){
+
+        existing.qty++;
+
+    }else{
+
+        cart.push({
+            ...product,
+            qty:1
+        });
+
+    }
+
+    updateCart();
+
+    openCart();
+
+}
+
+
+function changeQty(id,amount){
+
+    const item =
+        cart.find(x=>x.id===id);
+
+    if(!item) return;
+
+    item.qty += amount;
+
+    if(item.qty<=0){
+
+        cart =
+            cart.filter(x=>x.id!==id);
+
+    }
+
+    updateCart();
+
+}
+
+
+function updateCart(){
+
+    document.getElementById("cartCount").textContent =
+        cart.reduce((sum,item)=>sum+item.qty,0);
+
+    const container =
+        document.getElementById("cartItems");
+
+    container.innerHTML="";
+
+    if(cart.length===0){
+
+        container.innerHTML=`
+            <p style="color:#9d9180;padding:25px 0">
+                Your cart is empty.
+            </p>
+        `;
+
+    }
+
+    let total=0;
+
+    cart.forEach(item=>{
+
+        total += item.price * item.qty;
+
+        const div =
+            document.createElement("div");
+
+        div.className="cart-item";
+
+        div.innerHTML=`
+
+            <strong>
+                ${item.brand} ${item.name}
+            </strong>
+
+            <small>
+                ${item.size}
+            </small>
+
+            <div class="qty">
+
+                <button
+                    onclick="changeQty(${item.id},-1)"
+                >
+                    −
+                </button>
+
+                <span>${item.qty}</span>
+
+                <button
+                    onclick="changeQty(${item.id},1)"
+                >
+                    +
+                </button>
+
+            </div>
+        `;
+
+        container.appendChild(div);
+
+    });
+
+    document.getElementById("cartTotal").textContent =
+        "₹" + total.toLocaleString("en-IN");
+
+}
+
+
+function openCart(){
+
+    document
+        .getElementById("cartPanel")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeCart(){
+
+    document
+        .getElementById("cartPanel")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
+
+
+/*
+========================================================
+CHECKOUT
+
+This deliberately does not pretend to process payment.
+
+Connect this function to your authorized backend/payment
+system after your licensing and retailer setup is ready.
+========================================================
+*/
+
+function checkoutInfo(){
+
+    if(cart.length===0){
+
+        alert("Your cart is empty.");
+
+        return;
+
+    }
+
+    alert(
+        "Checkout is currently being prepared. " +
+        "A compliant backend, retailer verification, " +
+        "age/eligibility verification and payment system " +
+        "must be connected before live orders can be accepted."
+    );
+
+}
+
+
+/* TRACKING */
+
+function trackOrder(){
+
+    const id =
+        document
+        .getElementById("orderId")
+        .value
+        .trim();
+
+    if(!id){
+
+        alert("Please enter your order ID.");
+
+        return;
+
+    }
+
+    document
+        .getElementById("status")
+        .style.display="block";
+
+    document
+        .getElementById("statusTitle")
+        .textContent =
+        "Tracking " + id;
+
+}
+
+
+function scrollToSection(id){
+
+    document
+        .getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* INITIAL */
+
+renderProducts();
+
+updateCart();
+
+</script>
+
+</body>
+</html>
